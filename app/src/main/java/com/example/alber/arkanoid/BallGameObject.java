@@ -8,10 +8,11 @@ public class BallGameObject extends AnimatedImageGameObject {
     AssetManager manager;
     PaddleGameObject paddle;
     TextGameObject score;
+    TextGameObject life;
     public Button resetButton;
     public TextView textFimJogo;
 
-    boolean dieing = false, isOnPaddle = true;
+    boolean dieing = false, isOnPaddle = true, reseting = false;
     float deadTime = 5000, maxPosX = 1000, maxPosY = 700, currentDead = 0, speed = 500,speedPaddle = 300,startX, startY;
     float directionX = 0, directionY = 0 ;
     public BallGameObject(String file, AssetManager pManager, float pX, float pY, PaddleGameObject pPaddle){
@@ -26,10 +27,16 @@ public class BallGameObject extends AnimatedImageGameObject {
     }
 
     public void update(float deltaTime){
+        if(reseting){
+            reseting = false;
+        }
         if(!isAlive){
             currentDead += deltaTime;
             if(currentDead >= deadTime){
-                reset();
+                if(life.count <= 0)
+                    reset();
+                else
+                    respawn();
             }
         }else{
             if(!isOnPaddle){
@@ -84,6 +91,14 @@ public class BallGameObject extends AnimatedImageGameObject {
         score.addCount(pPoint);
     }
 
+    public void respawn(){
+        isAlive = true;
+        isOnPaddle = true;
+        x = startX;
+        y = startY;
+        currentDead = 0;
+    }
+
     public void reset(){
         isAlive = true;
         isOnPaddle = true;
@@ -91,9 +106,12 @@ public class BallGameObject extends AnimatedImageGameObject {
         y = startY;
         currentDead = 0;
         score.count = 0;
+        life.count = 0;
+        reseting = true;
     }
 
     public void destroy(){
+        life.addCount(-1);
         isAlive = false;
     }
 }

@@ -38,30 +38,39 @@ class GameResources {
             if(obj.colide){
                 if(obj.id.equals("ball")){
                     for (GameObject obj2: gameObjects){
-                        if(obj2.colide){
-                            if(obj2.id.equals("paddle")){
-                                if(((AnimatedImageGameObject)obj).getBoundBox().intersect(((AnimatedImageGameObject)obj2).getBoundBox())){
-                                    obj.y = obj2.y - obj.w - 10;
-                                    ((BallGameObject)obj).changeDirY();
-                                    float relativeX = ((obj.x+obj.w*0.5f) - (obj2.x + obj2.w*0.5f))/(obj2.w*0.5f);
-                                    float relativeY = -(float)Math.sqrt(1 - relativeX*relativeX);
-                                    ((BallGameObject)obj).directionX = relativeX;
-                                    ((BallGameObject)obj).directionY = relativeY;
-                                }
-                            }
-                            if(obj2.id.equals("brick")){
-                                if(((AnimatedImageGameObject)obj).getBoundBox().intersect(((AnimatedImageGameObject)obj2).getBoundBox())){
-                                    if(((BrickGameObject)obj2).hit()){
-                                        ((BallGameObject)obj).addScore(((BrickGameObject)obj2).point);
-                                        ((BrickGameObject) obj2).destroy();
+                        if(!obj2.id.equals("ball")){
+                            if(((BallGameObject)obj).reseting){
+                                reset();
+                            }else{
+                                if(obj2.colide){
+                                    if(obj2.id.equals("paddle")){
+                                        if(((AnimatedImageGameObject)obj).getBoundBox().intersect(((AnimatedImageGameObject)obj2).getBoundBox())){
+                                            ((BallGameObject)obj).changeDirY();
+                                            float relativeX = ((obj.x+obj.w*0.5f) - (obj2.x + obj2.w*0.5f))/(obj2.w*0.5f + obj.w*0.5f);
+                                            float relativeY = -(float)Math.sqrt(1 - relativeX*relativeX);
+                                            ((BallGameObject)obj).directionX = relativeX;
+                                            ((BallGameObject)obj).directionY = relativeY;
+                                            obj.y = obj2.y - obj.w - 10;
+                                        }
                                     }
-                                    if(obj.getPosXLeft() <= obj2.getPosXRigth() || obj.getPosXRigth() >= obj2.getPosXLeft())
-                                        ((BallGameObject)obj).changeDirX();
-                                    if(obj.getPosYTop() <= obj2.getPosYBot() || obj.getPosYBot() >= obj2.getPosYTop())
-                                        ((BallGameObject)obj).changeDirY();
+                                    if(obj2.id.equals("brick")){
+                                        if(((AnimatedImageGameObject)obj).getBoundBox().intersect(((AnimatedImageGameObject)obj2).getBoundBox())){
+                                            if(((BrickGameObject)obj2).hit()){
+                                                ((BallGameObject)obj).addScore(((BrickGameObject)obj2).point);
+                                                ((BrickGameObject) obj2).destroy();
+                                            }
+                                            if(obj.getPosXLeft() <= obj2.getPosXRigth() || obj.getPosXRigth() >= obj2.getPosXLeft())
+                                                ((BallGameObject)obj).changeDirX();
+                                            if(obj.getPosYTop() <= obj2.getPosYBot() || obj.getPosYBot() >= obj2.getPosYTop())
+                                                ((BallGameObject)obj).changeDirY();
+                                        }
+                                    }
                                 }
                             }
                         }
+                    }
+                    if(((BallGameObject)obj).reseting){
+                        ((BallGameObject)obj).reseting = false;
                     }
                 }
             }

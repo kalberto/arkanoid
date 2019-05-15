@@ -32,16 +32,18 @@ public class RenderView extends View {
         paddle = new PaddleGameObject("teste_paddle.png",context.getAssets(),200, 650);
 
         ball.score = scoreTGB;
+        ball.life = lifeTGB;
+        ball.paddle = paddle;
         paddle.ball = ball;
         GameResources.getInstance().addObject(paddle);
         GameResources.getInstance().addObject(ball);
-        BrickGameObject brick = new BrickGameObject("brick.png",context.getAssets(),0,100,false,null,1,1);
-        for(int i = 1; i < 10; i++){
-            GameResources.getInstance().addObject(new BrickGameObject("brick.png",context.getAssets(),(100*i),150,true,brick.anim,1,1));
+        BrickGameObject brick = new BrickGameObject("brick.png",context.getAssets(),0,100,1,1,false,null,1,1);
+        for(int i = 1; i < 15; i++){
+            GameResources.getInstance().addObject(new BrickGameObject("brick.png",context.getAssets(),(55*i),155,1,1,true,brick.anim,1,1));
         }
-        brick = new BrickGameObject("brick2.png",context.getAssets(),0,100,false,null,1,1);
-        for(int i = 1; i < 10; i++){
-            GameResources.getInstance().addObject(new BrickGameObject("brick2.png",context.getAssets(),(100*i),100,true,brick.anim,2,2));
+        brick = new BrickGameObject("brick2.png",context.getAssets(),0,100,2,1,false,null,1,1);
+        for(int i = 1; i < 15; i++){
+            GameResources.getInstance().addObject(new BrickGameObject("brick2.png",context.getAssets(),(55*i),100,2,1,true,brick.anim,2,2));
         }
         startTime = System.nanoTime();
     }

@@ -13,6 +13,7 @@ public class PaddleGameObject extends AnimatedImageGameObject {
     float startX, startY;
     boolean walking = false;
     float direction = 0;
+
     public PaddleGameObject(String file, AssetManager pManager, float pX, float pY){
         manager = pManager;
         loadImage(file,manager,1,3,false, null);

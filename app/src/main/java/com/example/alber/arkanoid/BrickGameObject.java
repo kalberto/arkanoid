@@ -9,21 +9,23 @@ public class BrickGameObject extends AnimatedImageGameObject {
     AssetManager manager;
     int point;
     int life;
-    public BrickGameObject(String file, AssetManager pManager, float pX, float pY, boolean hasBitmap, Bitmap[] bitmaps, int pPoints, int pLife){
+    int startLife;
+    public BrickGameObject(String file, AssetManager pManager, float pX, float pY,int framesW, int framesH, boolean hasBitmap, Bitmap[] bitmaps, int pPoints, int pLife){
         manager = pManager;
-        loadImage(file,manager,1,1, hasBitmap, bitmaps);
+        loadImage(file,manager,framesW,framesH, hasBitmap, bitmaps);
         point = pPoints;
-        life = pLife;
+        startLife = life = pLife;
         x = pX;
         y = pY;
         colide = true;
         id = "brick";
         layer = 5;
         isAlive = true;
+        currentFrame = 0;
     }
 
     public void update(float deltaTime){
-        currentFrame = 0;
+
     }
 
     public void destroy(){
@@ -33,6 +35,7 @@ public class BrickGameObject extends AnimatedImageGameObject {
 
     public void reset(){
         colide = true;
+        life = startLife;
         isAlive = true;
     }
 
@@ -41,13 +44,9 @@ public class BrickGameObject extends AnimatedImageGameObject {
         if(life <= 0){
             destroy();
             return true;
+        }else{
+            currentFrame++;
+            return false;
         }
-        return false;
-    }
-
-    @Override
-    public void draw(Canvas canvas, Paint paint) {
-        canvas.drawBitmap(anim[currentFrame],x,y,paint);
-        super.draw(canvas, paint);
     }
 }

@@ -20,6 +20,10 @@ public class GameObject {
 
     }
 
+    public void reset(){
+
+    }
+
     public float getPosXRigth(){
         return x+w;
     }
