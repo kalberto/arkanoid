@@ -1,11 +1,16 @@
 package com.example.alber.arkanoid;
 
 import android.content.res.AssetManager;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class BallGameObject extends AnimatedImageGameObject {
     AssetManager manager;
     PaddleGameObject paddle;
     TextGameObject score;
+    public Button resetButton;
+    public TextView textFimJogo;
+
     boolean dieing = false, isOnPaddle = true;
     float deadTime = 5000, maxPosX = 1000, maxPosY = 700, currentDead = 0, speed = 500,speedPaddle = 300,startX, startY;
     float directionX = 0, directionY = 0 ;

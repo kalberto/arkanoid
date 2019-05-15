@@ -36,7 +36,7 @@ public class BrickGameObject extends AnimatedImageGameObject {
         isAlive = true;
     }
 
-    public boolean wasHit(){
+    public boolean hit(){
         life--;
         if(life <= 0){
             destroy();

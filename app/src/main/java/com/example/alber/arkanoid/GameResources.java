@@ -51,13 +51,14 @@ class GameResources {
                             }
                             if(obj2.id.equals("brick")){
                                 if(((AnimatedImageGameObject)obj).getBoundBox().intersect(((AnimatedImageGameObject)obj2).getBoundBox())){
-                                    ((BallGameObject)obj).addScore(((BrickGameObject)obj2).point);
+                                    if(((BrickGameObject)obj2).hit()){
+                                        ((BallGameObject)obj).addScore(((BrickGameObject)obj2).point);
+                                        ((BrickGameObject) obj2).destroy();
+                                    }
                                     if(obj.getPosXLeft() <= obj2.getPosXRigth() || obj.getPosXRigth() >= obj2.getPosXLeft())
                                         ((BallGameObject)obj).changeDirX();
                                     if(obj.getPosYTop() <= obj2.getPosYBot() || obj.getPosYBot() >= obj2.getPosYTop())
                                         ((BallGameObject)obj).changeDirY();
-                                    ((BrickGameObject) obj2).destroy();
-                                    numberOfDead++;
                                 }
                             }
                         }

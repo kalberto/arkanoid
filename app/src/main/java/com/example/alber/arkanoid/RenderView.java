@@ -25,6 +25,32 @@ public class RenderView extends View {
                 new MyGestureListener());
 
         startTime = System.nanoTime();
+
+        initVars();
+
+        ball = new BallGameObject("ball.png", context.getAssets(),200,600,paddle);
+        paddle = new PaddleGameObject("teste_paddle.png",context.getAssets(),200, 650);
+
+        ball.score = scoreTGB;
+        paddle.ball = ball;
+        GameResources.getInstance().addObject(paddle);
+        GameResources.getInstance().addObject(ball);
+        BrickGameObject brick = new BrickGameObject("brick.png",context.getAssets(),0,100,false,null,1,1);
+        for(int i = 1; i < 10; i++){
+            GameResources.getInstance().addObject(new BrickGameObject("brick.png",context.getAssets(),(100*i),150,true,brick.anim,1,1));
+        }
+        brick = new BrickGameObject("brick2.png",context.getAssets(),0,100,false,null,1,1);
+        for(int i = 1; i < 10; i++){
+            GameResources.getInstance().addObject(new BrickGameObject("brick2.png",context.getAssets(),(100*i),100,true,brick.anim,2,2));
+        }
+        startTime = System.nanoTime();
+    }
+
+    protected void initVars(){
+
+
+
+        //SCORE
         scoreTGB = new TextGameObject();
         scoreTGB.x = 20;
         scoreTGB.y = 45;
@@ -34,6 +60,8 @@ public class RenderView extends View {
         scoreTGB.count = 0;
         scoreTGB.layer = 100;
         scoreTGB.isAlive = true;
+        GameResources.getInstance().addObject(scoreTGB);
+        //LIFE
         lifeTGB = new TextGameObject();
         lifeTGB.x = 600;
         lifeTGB.y = 45;
@@ -43,24 +71,7 @@ public class RenderView extends View {
         lifeTGB.count = 3;
         lifeTGB.layer = 100;
         lifeTGB.isAlive = true;
-        GameResources.getInstance().addObject(scoreTGB);
         GameResources.getInstance().addObject(lifeTGB);
-        paddle = new PaddleGameObject("teste_paddle.png",context.getAssets(),200, 650);
-        ball = new BallGameObject("ball.png", context.getAssets(),200,600,paddle);
-        ball.score = scoreTGB;
-        paddle.ball = ball;
-        GameResources.getInstance().addObject(paddle);
-        GameResources.getInstance().addObject(ball);
-
-        BrickGameObject brick = new BrickGameObject("brick.png",context.getAssets(),0,100,false,null,1,1);
-        for(int i = 1; i < 10; i++){
-            GameResources.getInstance().addObject(new BrickGameObject("brick.png",context.getAssets(),(100*i),150,true,brick.anim,1,1));
-        }
-        brick = new BrickGameObject("brick2.png",context.getAssets(),0,100,false,null,1,1);
-        for(int i = 1; i < 10; i++){
-            GameResources.getInstance().addObject(new BrickGameObject("brick2.png",context.getAssets(),(100*i),100,true,brick.anim,1,1));
-        }
-        startTime = System.nanoTime();
     }
 
     @Override
