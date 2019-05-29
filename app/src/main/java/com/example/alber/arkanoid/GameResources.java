@@ -85,7 +85,7 @@ class GameResources {
             }else if(obj.id.equals("paddle")){
                 ((PaddleGameObject)obj).reset();
             }else if(obj.id.equals("ball")){
-                ((BallGameObject)obj).reset();
+                ((BallGameObject)obj).revive();
             }
         }
     }

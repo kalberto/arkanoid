@@ -37,6 +37,7 @@ public class BrickGameObject extends AnimatedImageGameObject {
         colide = true;
         life = startLife;
         isAlive = true;
+        currentFrame = 0;
     }
 
     public boolean hit(){

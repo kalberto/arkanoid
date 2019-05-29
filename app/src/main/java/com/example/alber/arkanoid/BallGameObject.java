@@ -99,6 +99,17 @@ public class BallGameObject extends AnimatedImageGameObject {
         currentDead = 0;
     }
 
+    public void revive(){
+        isAlive = true;
+        isOnPaddle = true;
+        x = startX;
+        y = startY;
+        currentDead = 0;
+        score.count = 0;
+        life.count = 3;
+        reseting = true;
+    }
+
     public void reset(){
         isAlive = true;
         isOnPaddle = true;
