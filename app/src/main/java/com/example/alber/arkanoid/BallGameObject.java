@@ -1,6 +1,8 @@
 package com.example.alber.arkanoid;
 
+import android.app.Activity;
 import android.content.res.AssetManager;
+import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -13,7 +15,7 @@ public class BallGameObject extends AnimatedImageGameObject {
     public TextView textFimJogo;
 
     boolean dieing = false, isOnPaddle = true, reseting = false;
-    float deadTime = 5000, maxPosX = 1000, maxPosY = 700, currentDead = 0, speed = 500,speedPaddle = 300,startX, startY;
+    float deadTime = 5000, maxPosX = 650, maxPosY = 700, currentDead = 0, speed = 500,speedPaddle = 300,startX, startY;
     float directionX = 0, directionY = 0 ;
     public BallGameObject(String file, AssetManager pManager, float pX, float pY, PaddleGameObject pPaddle){
         manager = pManager;

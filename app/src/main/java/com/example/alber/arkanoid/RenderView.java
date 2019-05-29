@@ -12,6 +12,7 @@ public class RenderView extends View {
     Paint paint = new Paint();
     float startTime;
     TextGameObject scoreTGB;
+    TextGameObject winTGB;
     TextGameObject lifeTGB;
     GestureDetector gestureDetector;
     ParallaxGameObject fundoPGB;
@@ -28,6 +29,7 @@ public class RenderView extends View {
 
         initVars();
 
+        GameResources.getInstance().winText = winTGB;
         ball = new BallGameObject("ball.png", context.getAssets(),200,600,paddle);
         paddle = new PaddleGameObject("teste_paddle.png",context.getAssets(),200, 650);
 
@@ -38,19 +40,32 @@ public class RenderView extends View {
         GameResources.getInstance().addObject(paddle);
         GameResources.getInstance().addObject(ball);
         BrickGameObject brick = new BrickGameObject("brick.png",context.getAssets(),0,100,1,1,false,null,1,1);
-        for(int i = 1; i < 15; i++){
+        for(int i = 1; i < 12; i++){
             GameResources.getInstance().addObject(new BrickGameObject("brick.png",context.getAssets(),(55*i),155,1,1,true,brick.anim,1,1));
+            GameResources.getInstance().numberBricks+=1;
         }
         brick = new BrickGameObject("brick2.png",context.getAssets(),0,100,2,1,false,null,1,1);
-        for(int i = 1; i < 15; i++){
+        for(int i = 1; i < 12; i++){
             GameResources.getInstance().addObject(new BrickGameObject("brick2.png",context.getAssets(),(55*i),100,2,1,true,brick.anim,2,2));
+            GameResources.getInstance().numberBricks+=1;
         }
         startTime = System.nanoTime();
     }
 
     protected void initVars(){
 
-
+        //WIN
+        winTGB = new TextGameObject();
+        winTGB.x = 10;
+        winTGB.y = 250;
+        winTGB.textSize = 75;
+        winTGB.color = Color.rgb(0,255,0);
+        winTGB.text = "VOCÊ GANHOU";
+        winTGB.count = 0;
+        winTGB.drawCount = false;
+        winTGB.layer = 100;
+        winTGB.isAlive = false;
+        GameResources.getInstance().addObject(winTGB);
 
         //SCORE
         scoreTGB = new TextGameObject();
@@ -65,7 +80,7 @@ public class RenderView extends View {
         GameResources.getInstance().addObject(scoreTGB);
         //LIFE
         lifeTGB = new TextGameObject();
-        lifeTGB.x = 600;
+        lifeTGB.x = 550;
         lifeTGB.y = 45;
         lifeTGB.textSize = 40;
         lifeTGB.color = Color.rgb(0,255,0);
@@ -80,7 +95,8 @@ public class RenderView extends View {
     protected void onLayout(boolean changed,
                             int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-
+        paddle.maxPos = ball.maxPosX = getWidth();
+        winTGB.y = getHeight()*0.5f;
         if(fundoPGB == null){
             fundoPGB = new ParallaxGameObject();
             fundoPGB.isAlive = true;
@@ -97,10 +113,12 @@ public class RenderView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN){
-            if(paddle.x > event.getX()){
+            float middle = getWidth() * 0.5f;
+            if(middle > event.getX()){
                 paddle.startWalk(-1);
-            }else if(paddle.x < event.getX()){
-                paddle.startWalk(1);
+            }else if(middle < event.getX()){
+                if(paddle.x + paddle.w < getWidth())
+                    paddle.startWalk(1);
             }
         }
         if(event.getAction() == MotionEvent.ACTION_UP){
@@ -140,7 +158,8 @@ public class RenderView extends View {
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            ball.shootBall();
+            if(ball.isOnPaddle)
+                ball.shootBall();
             return super.onDoubleTap(e);
         }
 
